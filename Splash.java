@@ -21,7 +21,7 @@ public class Splash extends JFrame implements ActionListener {
 		
 		
 		JLabel jnu = new JLabel("WELCOME TO JAWAHARLAL NEHRU UNIVERSITY");
-		jnu.setBounds(200,-20,650,80);
+		jnu.setBounds(220,-20,650,80);
 		jnu.setFont(new Font("Sariff",Font.BOLD,24));
 		jnu.setForeground(Color.RED);
 		add(jnu);
@@ -31,9 +31,22 @@ public class Splash extends JFrame implements ActionListener {
 		pr.setFont(new Font("Sariff",Font.CENTER_BASELINE,12));
 		pr.addActionListener(this);
 		add(pr);
-		
 		setVisible(true);
 		
+		while(true) {
+			jnu.setVisible(true);
+			try {
+				Thread.sleep(700);
+			}catch(Exception e) {
+				e.printStackTrace();
+			}
+			jnu.setVisible(false);
+			try {
+				Thread.sleep(700);
+			}catch(Exception e1) {
+				e1.printStackTrace();
+			}
+		}
 	}
 	
 	@Override

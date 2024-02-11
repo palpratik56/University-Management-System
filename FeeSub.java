@@ -8,8 +8,8 @@ import javax.swing.*;
 
 public class FeeSub extends JFrame implements ActionListener{
 	Choice croll,copt;
-	JLabel lbname,lbco,lbbr,lbsem,lbfee,lbam,lbopt;
-	JComboBox<Object>cbco,cbbr,csem;
+	JLabel lbname,lbco,cbco,lbbr,cbbr,lbsem,lbfee,lbam,lbopt;
+	JComboBox<Object> csem;
 	JButton get,pay;
 	String url="jdbc:mysql:///university"; 
 	String user="root";
@@ -50,31 +50,31 @@ public class FeeSub extends JFrame implements ActionListener{
 		lbname1.setFont(new Font("tahoma",Font.BOLD,15));
 		add(lbname1);
 		
-		 lbname = new JLabel();
+		lbname = new JLabel();
 		lbname.setBounds(110,130,150,30); // location width,height,field width,height
 		lbname.setFont(new Font("tahoma",Font.HANGING_BASELINE,15));
 		add(lbname);
 		
 
-		 lbco = new JLabel("Course:");
+		lbco = new JLabel("Course:");
 		lbco.setBounds(50,170,60,30); // location width,height,field width,height
 		lbco.setFont(new Font("tahoma",Font.BOLD,15));
 		add(lbco);
 		
 
-		 lbbr = new JLabel("Branch:");
+		lbbr = new JLabel("Branch:");
 		lbbr.setBounds(50,210,60,30); // location width,height,field width,height
 		lbbr.setFont(new Font("tahoma",Font.BOLD,15));
 		add(lbbr);
 		
 
-		 lbsem = new JLabel("Semester:");
+		lbsem = new JLabel("Semester:");
 		lbsem.setBounds(50,250,80,30); // location width,height,field width,height
 		lbsem.setFont(new Font("tahoma",Font.BOLD,15));
 		add(lbsem);
 		
 
-		 lbfee = new JLabel("Fee to be paid: ");
+		lbfee = new JLabel("Fee to be paid: ");
 		lbfee.setBounds(50,290,140,40);
 		lbfee.setFont(new Font("tahoma",Font.BOLD,17));
 		add(lbfee);
@@ -86,7 +86,7 @@ public class FeeSub extends JFrame implements ActionListener{
 		add(lbam);
 		
 		lbopt = new JLabel("Payment Mode: ");
-		lbopt.setBounds(50,330,130,30);
+		lbopt.setBounds(50,330,120,30);
 		lbopt.setFont(new Font("tahoma",Font.BOLD,15));
 		add(lbopt);
 		
@@ -101,18 +101,6 @@ public class FeeSub extends JFrame implements ActionListener{
 		pay.setFont(new Font("Sariff",Font.CENTER_BASELINE,14));
 		pay.addActionListener(this);
 		add(pay);
-		
-		try {
-			Connection con = DriverManager.getConnection(url,user,pwd);
-			PreparedStatement ps = con.prepareStatement(query);
-			ResultSet rs = ps.executeQuery();
-			while(rs.next()) {
-				croll.add(rs.getString("roll"));
-				lbname.setText(rs.getString("name"));
-				}
-		}catch(Exception e) {
-				e.printStackTrace();
-			}
 		
 		croll.addItemListener(new ItemListener() {
 
@@ -130,6 +118,8 @@ public class FeeSub extends JFrame implements ActionListener{
 						}
 					while(rs1.next()) {
 						lbname.setText(rs1.getString("name"));
+						cbco.setText(rs1.getString("course"));
+						cbbr.setText(rs1.getString("branch"));
 						}
 				}catch(Exception e1) {
 						e1.printStackTrace();
@@ -137,18 +127,16 @@ public class FeeSub extends JFrame implements ActionListener{
 			}
 		});
 		
-		String course [] = {"BSc","BA","BCom","BCA","BBA","BTech","MTech","MSc","MA","MCom",
-	            "MCA","MBA","Phd"};
-		cbco = new JComboBox<Object>(course);
+		cbco = new JLabel();
+		cbco.setFont(new Font("tahoma",Font.HANGING_BASELINE,15));
 		cbco.setBounds(120,170,80,30);
 		add(cbco);
 		
-		String branch [] = {"ENGLISH","BENGALI","HISTORY","GEOGRAPHY","POLITICAL SCIENCE",
-			"MARKETING","BANKING","FINTECH","MATHS","CHEMISTRY","PHYSICS","DATA SCIENCE",
-			"COMPUTER SCIENCE"};
-		cbbr = new JComboBox<Object>(branch);
+		cbbr = new JLabel();
+		cbbr.setFont(new Font("tahoma",Font.HANGING_BASELINE,15));
 		cbbr.setBounds(120,210,140,30);
 		add(cbbr);
+		
 		
 		String[] jcsem = {"sem1","sem2","sem3","sem4","sem5","sem6","sem7","sem8",
 				   "sem9","sem10"};
@@ -157,13 +145,27 @@ public class FeeSub extends JFrame implements ActionListener{
 		add(csem);
 		
 		copt = new Choice();
-		copt.setBounds(200,330,100,30);
+		copt.setBounds(180,335,110,30);
 		copt.setFont(new Font("tahoma",Font.CENTER_BASELINE,14));
 		copt.add("Cash");
 		copt.add("Card");
 		copt.add("UPI");
 		copt.add("Net Banking");
 		add(copt);
+		
+		try {
+			Connection con = DriverManager.getConnection(url,user,pwd);
+			PreparedStatement ps = con.prepareStatement(query);
+			ResultSet rs = ps.executeQuery();
+			while(rs.next()) {
+				croll.add(rs.getString("roll"));
+				lbname.setText(rs.getString("name"));
+				cbco.setText(rs.getString("course"));
+				cbbr.setText(rs.getString("branch"));
+				}
+		}catch(Exception e) {
+				e.printStackTrace();
+			}
 		
 		setVisible(true);
 	}
@@ -175,7 +177,7 @@ public class FeeSub extends JFrame implements ActionListener{
 				Connection con = DriverManager.getConnection(url,user,pwd);
 				String query = "select * from feestr where course = ?;";
 				PreparedStatement ps = con.prepareStatement(query);
-				ps.setString(1, (String)cbco.getSelectedItem());
+				ps.setString(1, cbco.getText());
 				ResultSet rs = ps.executeQuery();
 				while(rs.next()) {
 					lbam.setText(rs.getString((String)csem.getSelectedItem()));
@@ -192,12 +194,13 @@ public class FeeSub extends JFrame implements ActionListener{
 				
 				String name  = lbname.getText();
 				String roll  = (String)croll.getSelectedItem();
-				String co  = (String) cbco.getSelectedItem();
-				String br  = (String) cbbr.getSelectedItem();
+				String co  = cbco.getText();
+				String br  = cbbr.getText();
 				String sem = (String)csem.getSelectedItem();
 				String amount = lbam.getText();
 				String opt = (String)copt.getSelectedItem();
-				String tranid = "JNU2023110067"+roll.substring(8,roll.length())+name.charAt(0);
+				String tranid = "JNU2023110067"+roll.substring(8,roll.length())
+									+name.charAt(0);
 				ps.setString(1, roll);
 				ps.setString(2, name);
 				ps.setString(3, co);

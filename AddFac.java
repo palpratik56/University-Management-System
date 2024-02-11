@@ -13,13 +13,13 @@ public class AddFac extends JFrame implements ActionListener{
 	JButton sub;
 	
 	AddFac(){
-		setSize(800,500);
+		setSize(700,500);
 		setLocation(350,30);
 		getContentPane().setBackground(Color.CYAN);
 		setLayout(null);
 		
 		JLabel hd = new JLabel("New Faculty Details");
-		hd.setBounds(300,30,500,30);
+		hd.setBounds(240,30,500,30);
 		hd.setFont(new Font("Sariff",Font.BOLD,22));
 		hd.setForeground(Color.MAGENTA);
 		add(hd);
@@ -66,7 +66,7 @@ public class AddFac extends JFrame implements ActionListener{
 		add(lbadd);
 		
 		 tbadd = new JTextField();
-		tbadd.setBounds(140,200,550,30);
+		tbadd.setBounds(140,200,520,30);
 		add(tbadd);
 		
 		JLabel lbpin = new JLabel("PIN Code:");
@@ -113,7 +113,7 @@ public class AddFac extends JFrame implements ActionListener{
 		String branch [] = {"ENGLISH","BENGALI","SANSKRIT","HISTORY","GEOGRAPHY","POLITICAL"
 				+ " SCIENCE","MATHS","CHEMISTRY","PHYSICS","DATA SCIENCE","COMPUTER SCIENCE"};
 		cbbr = new JComboBox<Object>(branch);
-		cbbr.setBounds(150,350,150,30);
+		cbbr.setBounds(150,350,140,30);
 		add(cbbr);
 		
 		JLabel lbexp = new JLabel("Choose Experince(yrs):");
@@ -127,7 +127,7 @@ public class AddFac extends JFrame implements ActionListener{
 		add(cbexp);
 		
 	    sub = new JButton("Submit");
-	    sub.setBounds(320,400,100,30);
+	    sub.setBounds(280,410,100,30);
 	    sub.setFont(new Font("Sariff",Font.BOLD,15));
 	    sub.addActionListener(this);
 		add(sub);

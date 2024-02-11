@@ -40,6 +40,14 @@ public class StDetails extends JFrame implements ActionListener{
 			ResultSet rs = ps.executeQuery();	
 			while(rs.next()) {
 				croll.add(rs.getString("roll"));
+				tb = new JTable();
+				tb.setRowHeight(20); 
+				// Create a new DefaultTableCellRenderer
+		        DefaultTableCellRenderer renderer = new DefaultTableCellRenderer();
+
+		        // Set the alignment of the renderer to center
+		        renderer.setHorizontalAlignment(SwingConstants.CENTER);
+				tb.setModel(DbUtils.resultSetToTableModel(rs));
 				}
 		}catch(Exception e) {
 				e.printStackTrace();

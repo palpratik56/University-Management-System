@@ -8,10 +8,13 @@ public class Dashboard extends JFrame implements ActionListener {
 	Dashboard(){
 		setSize(700,500);
 		setLocation(350,70);
+		setLayout(null);
+		
 		ImageIcon i1 = new ImageIcon(ClassLoader.getSystemResource("icons/third.jpg"));
 		Image i2 = i1.getImage().getScaledInstance(700,440,Image.SCALE_DEFAULT);
 		ImageIcon i3 = new ImageIcon(i2);
 		JLabel im = new JLabel(i3);
+		im.setBounds(0,0, 700, 440);
 		add(im);
 		
 		JMenuBar mb = new JMenuBar();

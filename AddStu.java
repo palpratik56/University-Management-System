@@ -13,13 +13,13 @@ public class AddStu extends JFrame implements ActionListener {
 	JButton sub;
 	
 	AddStu(){
-		setSize(800,550);
+		setSize(700,550);
 		setLocation(350,30);
 		getContentPane().setBackground(Color.CYAN);
 		setLayout(null);
 		
 		JLabel hd = new JLabel("New Student Details");
-		hd.setBounds(300,30,500,30);
+		hd.setBounds(240,30,500,30);
 		hd.setFont(new Font("Sariff",Font.BOLD,22));
 		hd.setForeground(Color.MAGENTA);
 		add(hd);
@@ -66,7 +66,7 @@ public class AddStu extends JFrame implements ActionListener {
 		add(lbadd);
 		
 		 tbadd = new JTextField();
-		tbadd.setBounds(140,200,550,30);
+		tbadd.setBounds(140,200,520,30);
 		add(tbadd);
 		
 		JLabel lbpin = new JLabel("PIN Code:");
@@ -126,7 +126,7 @@ public class AddStu extends JFrame implements ActionListener {
 		add(cbco);
 		
 		JLabel lbbr = new JLabel("Choose Branch:");
-		lbbr.setBounds(250,400,140,30);
+		lbbr.setBounds(380,400,140,30);
 		lbbr.setFont(new Font("Sariff",Font.BOLD,15));
 		add(lbbr);
 		
@@ -134,11 +134,11 @@ public class AddStu extends JFrame implements ActionListener {
 				"MARKETING","BANKING","FINTECH","MATHS","CHEMISTRY","PHYSICS","DATA SCIENCE",
 				"COMPUTER SCIENCE"};
 		cbbr = new JComboBox<Object>(branch);
-		cbbr.setBounds(390,400,150,30);
+		cbbr.setBounds(510,400,140,30);
 		add(cbbr);
 		
 	    sub = new JButton("Submit");
-	    sub.setBounds(320,450,100,30);
+	    sub.setBounds(280,460,100,30);
 	    sub.setFont(new Font("Sariff",Font.BOLD,15));
 	    sub.addActionListener(this);
 		add(sub);

@@ -1,15 +1,17 @@
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 import java.sql.*;
 import java.text.DecimalFormat;
 
 import javax.swing.*;
 
 public class ChResult extends JFrame implements ActionListener{
-	JTextField croll,csem;
+	Choice croll;
 	JButton ch;
-	JLabel s1,s2,s3,s4,s5,m1,m2,m3,m4,m5,per,persc,cgpa,cgpasc;
+	JLabel csem,cbco,s1,s2,s3,s4,s5,m1,m2,m3,m4,m5,per,persc,cgpa,cgpasc;
 	float percen;
 	
 	String url="jdbc:mysql:///university"; 
@@ -18,6 +20,8 @@ public class ChResult extends JFrame implements ActionListener{
 	
 	String query1 = "select * from subject where roll = ? and sem = ?;";
 	String query2 = "select * from marks where roll = ? and sem = ?;";
+	String query = "select s.roll,course,sem from student s, marks m WHERE s.roll = m.roll "
+			+ "and s.roll = ?";
 	ChResult(){
 		setSize(400,550);
 		setLocation(500,80);
@@ -32,24 +36,78 @@ public class ChResult extends JFrame implements ActionListener{
 		add(res);
 		
 		JLabel sr = new JLabel("Enter Roll: ");
-		sr.setBounds(50,80,100,30);
+		sr.setBounds(50,80,80,30);
 		sr.setFont(new Font("Sariff",Font.BOLD,15));
 		add(sr);
 		
-		croll = new JTextField();
+		croll = new Choice();
 		croll.setBounds(140,80,100,30); // location width,height,field width,height
 		croll.setFont(new Font("tahoma",Font.CENTER_BASELINE,12));
 		add(croll);
 		
-		JLabel sem = new JLabel("Enter Semester:");
-		sem.setBounds(50,120,120,30);
+		try {
+			Connection con = DriverManager.getConnection(url,user,pwd);
+			PreparedStatement ps = con.prepareStatement("select * from student");
+			ResultSet rs = ps.executeQuery();	
+			while(rs.next()) {
+				croll.add(rs.getString("roll"));
+				}
+		}catch(Exception e) {
+				e.printStackTrace();
+			}
+		
+		JLabel sem = new JLabel("Semester:");
+		sem.setBounds(50,120,80,30);
 		sem.setFont(new Font("Sariff",Font.BOLD,15));
 		add(sem);
 		
-		csem = new JTextField();
-		csem.setBounds(180,120,70,30); // location width,height,field width,height
+		csem = new JLabel();
+		csem.setBounds(130,120,70,30); // location width,height,field width,height
 		csem.setFont(new Font("tahoma",Font.CENTER_BASELINE,12));
 		add(csem);
+		
+		JLabel co = new JLabel("Course:");
+		co.setBounds(220,120,60,30);
+		co.setFont(new Font("Sariff",Font.BOLD,15));
+		add(co);
+		
+		cbco = new JLabel();
+		cbco.setBounds(280,120,70,30); // location width,height,field width,height
+		cbco.setFont(new Font("tahoma",Font.CENTER_BASELINE,12));
+		add(cbco);
+		
+		try {
+			Connection con = DriverManager.getConnection(url,user,pwd);
+			PreparedStatement ps = con.prepareStatement(query);
+			ps.setString(1, croll.getSelectedItem());
+			ResultSet rs = ps.executeQuery();	
+			while(rs.next()) {
+				cbco.setText(rs.getString("course"));
+				csem.setText(rs.getString("sem"));
+				}
+		}catch(Exception e) {
+				e.printStackTrace();
+			}
+		
+		croll.addItemListener(new ItemListener() {
+
+			@Override
+			public void itemStateChanged(ItemEvent e) {
+				try {
+					Connection con = DriverManager.getConnection(url,user,pwd);
+					PreparedStatement ps = con.prepareStatement(query);
+					ps.setString(1, croll.getSelectedItem());
+					ResultSet rs = ps.executeQuery();	
+					while(rs.next()) {
+						croll.add(rs.getString("roll"));
+						cbco.setText(rs.getString("course"));
+						csem.setText(rs.getString("sem"));
+						}
+				}catch(Exception e1) {
+						e1.printStackTrace();
+					}
+			}
+		});
 		
 		JLabel lbsub = new JLabel("Subject");
 		lbsub.setBounds(50,200,80,30); // location width,height,field width,height
@@ -136,7 +194,7 @@ public class ChResult extends JFrame implements ActionListener{
 		try {
 			Connection con = DriverManager.getConnection(url,user,pwd);
 			PreparedStatement ps = con.prepareStatement(query1);
-			ps.setString(1, croll.getText());
+			ps.setString(1, croll.getSelectedItem());
 			ps.setString(2, csem.getText());
 			ResultSet rs = ps.executeQuery();
 			if (!rs.next()) {
@@ -151,16 +209,16 @@ public class ChResult extends JFrame implements ActionListener{
 			}
 			
 			PreparedStatement ps1 = con.prepareStatement(query2);
-			ps1.setString(1, croll.getText());
+			ps1.setString(1, croll.getSelectedItem());
 			ps1.setString(2, csem.getText());
 			ResultSet rs1 = ps1.executeQuery();
-			while(rs1.next()) {
+			if (rs1.next()) {
 				float ma1 = Float.parseFloat(rs1.getString("m1"));
 				float ma2 = Float.parseFloat(rs1.getString("m2"));
 				float ma3 = Float.parseFloat(rs1.getString("m3"));
 				float ma4 = Float.parseFloat(rs1.getString("m4"));
 				float ma5 = Float.parseFloat(rs1.getString("m5"));
-				
+			
 				m1.setText(rs1.getString("m1"));
 				m2.setText(rs1.getString("m2"));
 				m3.setText(rs1.getString("m3"));
@@ -174,7 +232,7 @@ public class ChResult extends JFrame implements ActionListener{
 				float gr = (float) ((percen)/9.50);
 				decfor.format(gr);
 				cgpasc.setText(Float.toString((gr)));
-				}
+			}
 			
 		}catch(Exception e1) {
 				e1.printStackTrace();

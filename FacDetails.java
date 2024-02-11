@@ -6,6 +6,8 @@ import java.awt.event.ActionListener;
 import java.awt.print.PrinterException;
 import java.sql.*;
 import javax.swing.*;
+import javax.swing.table.DefaultTableCellRenderer;
+
 import net.proteanit.sql.DbUtils;
 
 public class FacDetails extends JFrame implements ActionListener{
@@ -32,6 +34,7 @@ public class FacDetails extends JFrame implements ActionListener{
 		ceid.setFont(new Font("Sariff",Font.BOLD,15));
 		add(ceid);
 		String query = "select * from faculty;";
+		tb = new JTable();
 		
 		try {
 			Connection con = DriverManager.getConnection(url,user,pwd);
@@ -49,6 +52,12 @@ public class FacDetails extends JFrame implements ActionListener{
 			PreparedStatement ps = con.prepareStatement(query);
 			ResultSet rs = ps.executeQuery();	
 			tb = new JTable();
+			tb.setRowHeight(20); 
+			// Create a new DefaultTableCellRenderer
+	        DefaultTableCellRenderer renderer = new DefaultTableCellRenderer();
+
+	        // Set the alignment of the renderer to center
+	        renderer.setHorizontalAlignment(SwingConstants.CENTER);
 			tb.setModel(DbUtils.resultSetToTableModel(rs));
 		}
 		catch(Exception e) {

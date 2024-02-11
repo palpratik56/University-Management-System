@@ -59,7 +59,6 @@ public class UpFac extends JFrame implements ActionListener {
 		JLabel lbname1 = new JLabel();
 		lbname1.setBounds(150,100,150,30); // location width,height,field width,height
 		lbname1.setFont(new Font("tahoma",Font.HANGING_BASELINE,15));
-		//getval(lbname1,"name");
 		add(lbname1);
 		
 		JLabel lbfname = new JLabel("Father's Name:");
@@ -186,6 +185,8 @@ public class UpFac extends JFrame implements ActionListener {
 				tbadd.setText(rs.getString("address"));
 				tbpin.setText(rs.getString("pin"));
 				tbph.setText(rs.getString("contact"));
+				cbexp.setSelectedItem(rs.getString("exp"));
+				cbbr.setSelectedItem(rs.getString("branch"));
 			
 				}
 			
@@ -211,6 +212,8 @@ public class UpFac extends JFrame implements ActionListener {
 						tbadd.setText(rs.getString("address"));
 						tbpin.setText(rs.getString("pin"));
 						tbph.setText(rs.getString("contact"));
+						cbexp.setSelectedItem(rs.getString("exp"));
+						cbbr.setSelectedItem(rs.getString("branch"));
 						}
 					
 				}catch(Exception e1) {

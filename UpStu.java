@@ -59,6 +59,7 @@ public class UpStu extends JFrame implements ActionListener {
 		JLabel lbname1 = new JLabel();
 		lbname1.setBounds(150,100,120,30); // location width,height,field width,height
 		lbname1.setFont(new Font("tahoma",Font.HANGING_BASELINE,15));
+		add(lbname1);
 		
 		JLabel lbfname = new JLabel("Father's Name:");
 		lbfname.setBounds(390,100,120,30);
@@ -198,6 +199,8 @@ public class UpStu extends JFrame implements ActionListener {
 				tbadd.setText(rs.getString("address"));
 				tbpin.setText(rs.getString("pin"));
 				tbph.setText(rs.getString("contact"));
+				cbco.setSelectedItem(rs.getString("course"));
+				cbbr.setSelectedItem(rs.getString("branch"));
 				}
 			
 		}catch(Exception e) {
@@ -223,6 +226,8 @@ public class UpStu extends JFrame implements ActionListener {
 						tbadd.setText(rs.getString("address"));
 						tbpin.setText(rs.getString("pin"));
 						tbph.setText(rs.getString("contact"));
+						cbco.setSelectedItem(rs.getString("course"));
+						cbbr.setSelectedItem(rs.getString("branch"));
 						}
 					
 				}catch(Exception e1) {
